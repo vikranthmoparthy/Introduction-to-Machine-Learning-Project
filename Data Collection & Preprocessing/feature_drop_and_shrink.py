@@ -2,7 +2,7 @@ import pandas as pd
 
 def main():
     filename = "nl_energy_data_2025.csv"
-    output_filename = "daily_energy_data.csv"
+    output_filename = "daily_energy_data_clean.csv"
         
     df = pd.read_csv(filename, index_col=0, parse_dates=True)
 
@@ -24,11 +24,16 @@ def main():
                 'max_solar': group['Solar'].max(),
                 'avg_wind_onshore': group['Wind Onshore'].mean(),
                 'avg_temp': group['temp_c'].mean(),
-                'gas_price': group['gas_price'].iloc[0] 
+                'gas_price': group['gas_price'].iloc[0]
             }
             daily_rows.append(row)
             
     df_clean = pd.DataFrame(daily_rows)
+
+    df_clean['price_yesterday'] = df_clean['close_price'].shift(1)
+
+    df_clean.dropna(inplace=True)
+
     df_clean.to_csv(output_filename, index=False)
 
 if __name__ == "__main__":

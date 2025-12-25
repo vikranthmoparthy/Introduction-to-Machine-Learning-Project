@@ -25,6 +25,8 @@ def main():
         try:
             df_final = df_energy.join(df_weather, how='inner')
 
+            df_final['price_yesterday'] = df_final['price_eur'].shift(24)
+
             df_final['date_str'] = df_final.index.strftime('%Y-%m-%d')
             s_gas.index = s_gas.index.strftime('%Y-%m-%d')
             
@@ -37,7 +39,8 @@ def main():
             if not df_final.empty:
                 filename = f"nl_energy_data_{YEAR}.csv"
                 df_final.to_csv(filename)
-                print("CSV Generated")
+                print(f"CSV Generated: {filename}")
+                print(df_final[['price_eur', 'price_yesterday']].head())
             else:
                 print("Merged dataset is empty.")
         except Exception as e:
@@ -106,6 +109,7 @@ def get_gas_data():
         
         series = df['Price']
         series.name = 'gas_price'
+        
         series.index = series.index.tz_localize(None)
         
         mask = (series.index >= START.tz_localize(None)) & (series.index <= END.tz_localize(None))
