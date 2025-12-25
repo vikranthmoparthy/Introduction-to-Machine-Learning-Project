@@ -17,7 +17,7 @@ END = current_date - pd.Timedelta(days=1)
 def main():
     df_energy = get_entsoe_data()
     df_weather = get_weather_data()
-    s_gas = get_gas_data_from_file()
+    s_gas = get_gas_data()
 
     if df_energy is None or df_weather is None or s_gas is None:
         print("Data generation FAILURE")
@@ -97,7 +97,7 @@ def get_weather_data():
         print(f"Weather Error: {e}")
         return None
 
-def get_gas_data_from_file():
+def get_gas_data():
     try:
         df = pd.read_csv(GAS_FILE, usecols=['Date', 'Price'], quotechar='"')
         
@@ -106,7 +106,6 @@ def get_gas_data_from_file():
         
         series = df['Price']
         series.name = 'gas_price'
-        
         series.index = series.index.tz_localize(None)
         
         mask = (series.index >= START.tz_localize(None)) & (series.index <= END.tz_localize(None))
