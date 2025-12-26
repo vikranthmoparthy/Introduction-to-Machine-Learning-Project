@@ -25,6 +25,6 @@ coefficients = pd.DataFrame({
 coefficients['Abs_Influence'] = coefficients['Coefficient'].abs()
 coefficients = coefficients.sort_values(by='Abs_Influence', ascending=False)
 
-print("\nModel Intercept:", logmodel.intercept_[0])
+print("\nIntercept:", logmodel.intercept_[0])
 print("\nFeature Coefficients:")
 print(coefficients[['Feature', 'Coefficient']].to_string(index=False))
