@@ -39,12 +39,12 @@ def main():
             if not df_final.empty:
                 filename = f"nl_energy_data_{YEAR}.csv"
                 df_final.to_csv(filename)
-                print(f"CSV Generated: {filename}")
+                print(f"CSV Generated")
                 print(df_final[['price_eur', 'price_yesterday']].head())
             else:
                 print("Merged dataset is empty.")
         except Exception as e:
-            print(f"Merge Error: {e}")
+            print(f"Merge Error")
 
 def get_entsoe_data():
     try:
@@ -61,7 +61,7 @@ def get_entsoe_data():
         df.index = df.index.tz_convert('UTC')
         return df
     except Exception as e:
-        print(f"ENTSO-E Error: {e}")
+        print(f"ENTSO-E Error")
         return None
 
 def get_weather_data():
@@ -97,7 +97,7 @@ def get_weather_data():
         
         return df
     except Exception as e:
-        print(f"Weather Error: {e}")
+        print(f"Weather Error")
         return None
 
 def get_gas_data():
@@ -116,7 +116,7 @@ def get_gas_data():
         return series.loc[mask]
         
     except Exception as e:
-        print(f"CSV Parse Error: {e}")
+        print(f"CSV Parse Error")
         return None
 
 if __name__ == "__main__":
