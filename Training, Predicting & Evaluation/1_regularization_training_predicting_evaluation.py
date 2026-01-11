@@ -10,9 +10,9 @@ def load_and_split_data(filepath):
     X = df[feature_cols]
     y = df['target']
 
-    X_temp, X_test, y_temp, y_test = train_test_split(X, y, test_size=0.30, random_state=101)
+    X_temp, X_test, y_temp, y_test = train_test_split(X, y, test_size=0.20, random_state=7)
     
-    X_train, X_val, y_train, y_val = train_test_split(X_temp, y_temp, test_size=0.30, random_state=101)
+    X_train, X_val, y_train, y_val = train_test_split(X_temp, y_temp, test_size=0.25, random_state=7)
     
     return X_train, X_val, X_test, y_train, y_val, y_test, X.columns
 
