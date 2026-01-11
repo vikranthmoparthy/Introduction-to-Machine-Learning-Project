@@ -53,10 +53,8 @@ def train_and_evaluate_final_model(X_train, y_train, X_test, y_test, best_C):
     return final_model
 
 def format_feature_importance(model, feature_names):
-    coefficients = pd.DataFrame({
-        'Feature': feature_names,
-        'Coefficient': model.coef_[0]
-    })
+    coefficients = pd.DataFrame({'Feature': feature_names, 'Coefficient': model.coef_[0]})
+    
     coefficients['Abs_Influence'] = coefficients['Coefficient'].abs()
     coefficients = coefficients.sort_values(by='Abs_Influence', ascending=False)
     
