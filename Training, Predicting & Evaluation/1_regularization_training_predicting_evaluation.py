@@ -28,7 +28,7 @@ def load_and_split_data(filepath):
     y = df['target']
 
     #Here, we start implementing the chronological splitting
-    #Last 20% of the year = Final Test Set (Locked Vault).
+    #Last 20% of the year = Final Test Set
     #First 80% of the year = Training/Validation Set (Used for learning & tuning).
     test_size = int(len(df) * 0.20)
     split_index = len(df) - test_size
@@ -131,7 +131,7 @@ def main():
 
     #Train final model with best C and evaluate on test set
     final_model = train_and_evaluate_final_model(X_train_full, y_train_full, X_test, y_test, best_C)
-    
+
     format_feature_importance(final_model, feature_names)
 
 if __name__ == "__main__":
