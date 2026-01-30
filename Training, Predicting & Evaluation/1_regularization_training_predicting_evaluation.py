@@ -15,7 +15,7 @@ from sklearn.model_selection import TimeSeriesSplit
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, log_loss
 
-SEED = 42 #Define global seed to remove any randomness in the solver
+SEED = 7 #Define global seed to remove any randomness in the solver
 
 #We load data and perform a strict chronological split
 #We do not use a random train/test split because this project involves Time Series Data
