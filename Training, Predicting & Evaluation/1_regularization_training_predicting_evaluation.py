@@ -1,5 +1,5 @@
 """
-This file implements the training, regularization (through TSCV) and testing all in one. A lot of the code that we used
+This file implements the training, regularization (through TSCV) and testing all in one. Parts of the code that we used
 was taken from week 3's practical: Logistic Regression and week 6's practical: Regularization.
 However, we also had to implement new functionality, including time-series cross validation (TSCV, explained in report),
 cross-validation averaging and solver reproducibility. For this, we had to read parts of Scikit-Learn and Pandas documentation. 
