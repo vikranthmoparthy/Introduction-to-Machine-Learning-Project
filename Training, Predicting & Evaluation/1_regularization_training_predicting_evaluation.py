@@ -56,7 +56,7 @@ def find_best_c_cv(X, y, C_values):
         fold_accuracies = []
         fold_losses = []
         
-        #Initiliaze model with current C
+        #Initiliaze model with current C. Solver choice, class_weight and iterations are justified in the report.
         lr = LogisticRegression(
             C=C, 
             solver='lbfgs', 

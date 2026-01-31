@@ -32,7 +32,7 @@ def main():
     #This function does two things: calculates the mean and std for each feature AND also applies the z-transform to each value
     df[features_to_scale] = scaler.fit_transform(df[features_to_scale])
     
-    df.to_csv(output_filename, index=False) #Save
+    df.to_csv(output_filename, index=False)
 
 if __name__ == "__main__":
     main()
