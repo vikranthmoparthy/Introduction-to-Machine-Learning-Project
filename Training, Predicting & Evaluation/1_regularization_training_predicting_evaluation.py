@@ -48,7 +48,7 @@ def find_best_c_cv(X, y, C_values):
     mean_val_accuracies = []
     
     #Print table of c values, with corresponding accuracy and log loss
-    print(f"{'C Value':<10} | {'Avg Val Accuracy':<20} | {'Avg Val Log Loss':<20}") 
+    print(f"{'C Value':<12}| {'Avg Val Accuracy':<23}|{'Avg Val Log Loss':<22}") 
     print("-" * 55)
 
     #Similiar to practical 6, we iterate through every c value (regularization strength) The c-values we use are defined in main().
