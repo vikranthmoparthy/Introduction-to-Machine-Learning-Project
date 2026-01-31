@@ -21,14 +21,14 @@ import pandas as pd
 import openmeteo_requests #Python client for openmeteo-API (weather data)
 import requests_cache
 from retry_requests import retry
-from entsoe import EntsoePandasClient #For extracting ENTSOE data (transmission / electricity). 
+from entsoe import EntsoePandasClient #For extracting ENTSOE data (transmission / electricity)
                                         #We used a third-party wrapper rather than the official client for ease of functionality; it allows data to be
                                         #requested directly as Pandas data frames
 
 API_KEY = "8af5be55-2363-4b7e-9dc4-a7a59b850367"
 COUNTRY = "NL"
 YEAR = 2025
-LAT, LON = 52.0907, 5.1214 #Coordinates for Utrecht
+LAT, LON = 52.0907, 5.1214 #Cooordinates for Utrecht
 GAS_FILE = "gas_prices.csv"
 
 current_date = pd.Timestamp.now(tz="Europe/Amsterdam") #Define the time range relative to now
@@ -36,33 +36,33 @@ START = pd.Timestamp(f"{YEAR}-01-01", tz="Europe/Amsterdam") #Setting start data
 END = current_date - pd.Timedelta(days=1) #Setting end-date as the day before the data was extracted (also ensure data is for full day)
 
 def main():
-    #Fetch the raw data from the three sources (one of them is local)
+    #Fetch the raw data from the three sources (one of them is local) 
     df_energy = get_entsoe_data()
     df_weather = get_weather_data()
     s_gas = get_gas_data()
 
-    #Validation is necessary, since there could be many possible reasons for errors at runtime
+    #Validation is necessary, since there could be many possible reasons for errors at runtime 
     if df_energy is None or df_weather is None or s_gas is None:
         print("Data generation FAILURE")
     else:
         try:
-            #Step 1: Merging hourly data between energy and weather
+            #Merging hourly data between energy and weather
             df_final = df_energy.join(df_weather, how='inner') 
 
-            #Step 2: Creating the lag feature (explained in report)
-            df_final['price_yesterday'] = df_final['price_eur'].shift(24) #
+            #Creating the lag feature (explained in report)
+            df_final['price_yesterday'] = df_final['price_eur'].shift(24)
 
-            #Step 3: Merging Daily Gas Data onto hourly energy data
+            #Merging Daily Gas Data onto hourly energy data
             df_final['date_str'] = df_final.index.strftime('%Y-%m-%d')
             s_gas.index = s_gas.index.strftime('%Y-%m-%d')
             
-            #Step 4: Map the daily gas price to every hour of the respective day
+            #Map the daily gas price to every hour of the respective day
             df_final = df_final.merge(s_gas, left_on='date_str', right_index=True, how='left')
 
-            #Step 5: Handle missing gas data
+            #Handle missing gas data
             df_final['gas_price'] = df_final['gas_price'].ffill()
 
-            #Step 6: Cleanup by removing empty rows and temporary string columns
+            #Cleanup by removing empty rows and temporary string columns
             df_final.drop(columns=['date_str'], inplace=True)
             df_final.dropna(inplace=True)
 
@@ -100,7 +100,8 @@ def get_weather_data(): #For fetching historical weather from Open-Meteo. Here w
     try:
         #We setup local cache so we don't re-download data if we run the script twice
         cache = requests_cache.CachedSession('.cache', expire_after=3600) 
-        retry_client = retry(cache, retries=5, backoff_factor=0.2)
+        #We wrap cache with up to 5 retries and exponential backoff time between retries; 0.2 was chosen, as per convention
+        retry_client = retry(cache, retries=5, backoff_factor=0.2) 
         openmeteo = openmeteo_requests.Client(session=retry_client)
 
         url = "https://archive-api.open-meteo.com/v1/archive"

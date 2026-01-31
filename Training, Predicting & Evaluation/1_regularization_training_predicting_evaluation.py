@@ -83,7 +83,7 @@ def find_best_c_cv(X, y, C_values):
         avg_loss = np.mean(fold_losses)
         mean_val_accuracies.append(avg_acc)
 
-        print(f"{C:<12} | {avg_acc:<20.5f} | {avg_loss:<20.5f}") #Format the table
+        print(f"{C:<12}|{avg_acc:<20.5f}|{avg_loss:<20.5f}") #Format the table
 
     #Pick the best_c based on highest average accuracy
     best_index = np.argmax(mean_val_accuracies)

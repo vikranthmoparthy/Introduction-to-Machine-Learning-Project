@@ -19,7 +19,7 @@ def main():
     #We split the DataFrame into chunks, where each chunk is one specific day. Then, we iterate through every day (group) one by one.
     for date, group in df.groupby(df.index.date): 
 
-        #Before summarizing, we must verify this specific day has a start (00:00) and an end (23:00)
+        #Before summarizing, we must verify this specific day has a start: 00:00 and end: 23:00
         #Otherwise, we will get skewed data if a day is incomplete
         hours = group.index.hour
         if 0 in hours and 23 in hours:
